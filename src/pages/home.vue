@@ -1008,7 +1008,7 @@ export default {
   methods: {
     downloadWindow() {
       window.open(
-        "https://download.quickmagic.vn/Quick%20Magic-2.2.1-arm64.pkg",
+        "https://download.quickmagic.vn/Quick%20Magic%20Setup%202.2.1.zip",
         "_blank"
       );
     },
