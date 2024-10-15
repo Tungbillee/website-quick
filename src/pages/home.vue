@@ -44,7 +44,7 @@
           class="button mgt-30 flex-al gap-6"
           style="padding: 5px 6px 5px 20px"
         >
-          Tải xuống v2.0.2 cho Windows
+          Tải xuống v2.2.1 cho Windows
 
           <img :src="img('icon_download.svg')" alt="" />
         </div>
@@ -54,7 +54,7 @@
           class="button mgt-30 flex-al gap-6"
           style="padding: 5px 6px 5px 20px"
         >
-          Tải xuống v2.0.2 cho MacOs
+          Tải xuống v2.2.1 cho MacOs
           <img :src="img('icon_download.svg')" alt="" />
         </div>
       </div>
@@ -1008,13 +1008,13 @@ export default {
   methods: {
     downloadWindow() {
       window.open(
-        "https://download.quickmagic.vn/Quick%20Magic%20Setup%202.0.2.zip",
+        "https://download.quickmagic.vn/Quick%20Magic-2.2.1-arm64.pkg",
         "_blank"
       );
     },
     downloadMacos() {
       window.open(
-        "https://download.quickmagic.vn/Quick%20Magic-2.0.2-arm64.pkg",
+        "https://download.quickmagic.vn/Quick%20Magic-2.2.1-arm64.pkg",
         "_blank"
       );
     },
