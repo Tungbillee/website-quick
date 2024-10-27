@@ -56,22 +56,9 @@
           </div>
           <div class="flex-cl gap-25">
             <div>Liên hệ</div>
-            <div class="color_rg fz-15">086 6666 216</div>
-            <div class="color_rg fz-15">hotro@smit.vn</div>
           </div>
         </div>
-        <div class="dmca">
-          <div class="flex-bw-al gap-6 mgt-30">
-            <div>
-              <div>© Công ty cổ phần giải pháp công nghệ SMIT</div>
-              <div class="mgt-5" style="opacity: 0.6">
-                Số 9, Ngõ 75 Trần Thái Tông, Phường Dịch Vọng, Quận Cầu Giấy,
-                Thành phố Hà Nội
-              </div>
-            </div>
-            <img :src="img('dmca.svg')" alt="" />
-          </div>
-        </div>
+        <div class="dmca"></div>
       </div>
     </div>
   </div>
