@@ -127,12 +127,11 @@ export default {
       }
     },
     scrollToSection() {
-      console.log("chạy");
       const currentPath = this.$route.path;
-      console.log({ currentPath });
+
       if (currentPath === "/home") {
         const element = document.getElementById("target-section");
-        console.log({ element });
+
         if (element) {
           element.scrollIntoView({ behavior: "smooth" });
         }

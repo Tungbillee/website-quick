@@ -782,12 +782,11 @@ export default {
       this.login = true;
     },
     async loginDashboard() {
-      console.log("Email:", this.account);
       let email = this.email_login;
       let pass = this.password_login;
       this.email_register = "";
       this.accessToken = "";
-      console.log({ email, pass });
+
       let res = await this.api({
         path: "/auth/signin",
         data: {
@@ -850,7 +849,7 @@ export default {
           password: pass_rg,
         },
       });
-      console.log(register);
+
       if (register.success) {
         this.comfirm_email = true;
         this.register = false;
@@ -865,7 +864,7 @@ export default {
     },
     async comfirmEmail() {
       const result = this.inputs.join("");
-      console.log(result);
+
       let confirm_email = await this.api({
         path: "/service/verify-email",
         headers: {
@@ -875,7 +874,7 @@ export default {
           verified_code: result,
         },
       });
-      console.log(confirm_email);
+
       if (confirm_email.success) {
         this.comfirm_email = false;
         this.register_succes = true;

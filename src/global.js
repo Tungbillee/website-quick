@@ -1,9 +1,7 @@
 import axios from "axios-https-proxy-fix";
 
 Object.assign(window, {
-  test: () => {
-    console.log(123);
-  },
+  test: () => {},
 });
 
 let deviceId;

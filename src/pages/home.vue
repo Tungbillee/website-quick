@@ -1034,7 +1034,7 @@ export default {
       let res = await Axios({
         url: "https://reels.adsteam.xyz/v1/get-users",
       });
-      console.log(res);
+
       if (res.data.success) {
         this.number_user = res.data.count;
         this.animateCount();
@@ -1146,7 +1146,6 @@ export default {
     },
 
     updateCursorPositionReveal(event, index) {
-      console.log({ x: event.offsetX, y: event.offsetY });
       const x = event.offsetX;
       const y = event.offsetY;
       const cursor = this.$refs[`customCursorReveal${index}`][0];
@@ -1154,7 +1153,6 @@ export default {
       cursor.style.setProperty("--y", `${y}px`);
     },
     updateCursorPositionFeedback(event, index) {
-      console.log({ x: event.offsetX, y: event.offsetY });
       const x = event.offsetX;
       const y = event.offsetY;
       const cursor = this.$refs[`customCursorFeedback${index}`][0];
