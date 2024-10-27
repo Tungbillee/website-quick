@@ -159,6 +159,9 @@ export default {
   overflow-y: auto;
   background: #080b18;
 }
+.body {
+  height: 60%;
+}
 .header {
   height: 20%;
   display: flex;

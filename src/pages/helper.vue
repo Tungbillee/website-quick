@@ -157,7 +157,7 @@ export default {
 
 <style lang="scss" scoped>
 .helper {
-  height: 100vh;
+  height: 100%;
   position: relative;
   z-index: 2;
 }
