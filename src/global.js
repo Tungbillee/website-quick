@@ -4,15 +4,9 @@ Object.assign(window, {
   test: () => {},
 });
 
-let deviceId;
-
 const globaFunction = {
-  api: async ({ path, method = "POST", data = {}, headers = {} }) => {
-    let host = "http://192.168.68.45:3000";
-
-    if (!deviceId) {
-      deviceId = await Electron.invoke("login-start");
-    }
+  api: async ({ path, method = "GET", data = {}, headers = {}, params }) => {
+    let host = "http://localhost:3001";
 
     // let deviceId = localStorage.getItem("device_id");
     // if (deviceId) {
@@ -20,7 +14,6 @@ const globaFunction = {
     // }
     const combinedHeaders = {
       "content-type": "application/json",
-      "x-device-id": deviceId,
       authorization: localStorage.accessToken,
       ...headers,
     };
@@ -30,13 +23,14 @@ const globaFunction = {
       method: method,
       data: JSON.stringify(data),
       headers: combinedHeaders,
+      params: params,
     })
       .then((e) => e.data)
       .catch((error) => {
         console.error("Error fetching data:", error);
         return {
           error: true,
-          message: "Error fetching data",
+          message: error,
         };
       });
   },

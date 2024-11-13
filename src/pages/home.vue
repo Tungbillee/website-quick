@@ -815,10 +815,15 @@
     <div class="backdrop" data-aos="zoom-out"></div>
   </div>
 </template>
-
+<route>
+  {
+      "meta": {
+          "both": true
+      }
+  }
+  </route>
 <script>
 import Axios from "axios-https-proxy-fix";
-
 export default {
   data() {
     return {
@@ -977,6 +982,7 @@ export default {
       currentCount: 0,
     };
   },
+
   mounted() {
     const options = {
       root: null,
