@@ -1016,7 +1016,7 @@ export default {
 <style lang="scss" scoped>
 .conten {
     height: 100vh;
-    background-image: url("images/home/background_home.png");
+    background-image: url("/images/home/background_home.png");
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
