@@ -1,0 +1,1 @@
+import{_ as o,r as n,o as t,c as s,d as _}from"./index-425acea7.js";const c={},r={class:"loading"};function a(i,d,l,p,u,f){const e=n("router-view");return t(),s("div",r,[_(e)])}const m=o(c,[["render",a]]);export{m as default};
