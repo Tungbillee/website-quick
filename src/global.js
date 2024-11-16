@@ -6,8 +6,8 @@ Object.assign(window, {
 
 const globaFunction = {
     api: async ({ path, method = "GET", data = {}, headers = {}, params }) => {
-        let host = "https://reels.adsteam.xyz"
-
+        // let host = "https://reels.adsteam.xyz"
+        let host = "http://localhost:3001"
         // let deviceId = localStorage.getItem("device_id");
         // if (deviceId) {
         //   data.device_id = deviceId;

@@ -24,9 +24,9 @@
                             <div class="text-yellow">
                                 {{ user?.name_device ?? "Chưa kết nối thiết bị nào" }}
                             </div>
-                            <div @click="confirmDeleteDevice()" class="delete-device" :class="{ no_active: !user?.name_device || !canDeleteDevice(user?.active_at ?? 0) }">Xoá thiết bị</div>
+                            <div @click="confirmDeleteDevice()" class="delete-device" :class="{ no_active: !user.delete_device }">Xoá thiết bị</div>
                         </div>
-                        <div v-if="user?.name_device" class="text-300 mgt-10">Được làm mới thiết bị sau: {{ calculateDeviceRefreshTime(user?.active_at ?? 0) }}</div>
+                        <div class="text-300 mgt-10">Được làm mới thiết bị sau: {{ calculateDeviceRefreshTime(user?.active_at ?? 0) }}</div>
                     </div>
                     <div class="flex gap-10">
                         <div class="buy flex-al gap-5" @click="goToBuyPackage">
@@ -55,7 +55,7 @@
                 <div class="body" v-if="type_manage === 'goi'">
                     <div class="flex-al gap-5">
                         <img :src="getPackageIcon(user?.name_package)" alt="" />
-                        <div class="fz-24 fw-600">Gói cước : {{ user?.purchase_term }} tháng</div>
+                        <div class="fz-24 fw-600">Gói cước : {{ user?.purchase_term ?? 0 }} tháng</div>
                     </div>
                     <div v-if="user.has_expired" class="expired flex-bw-al">
                         <div class="flex-al gap-5">
@@ -263,16 +263,17 @@ export default {
             }
         },
         confirmDeleteDevice() {
-            if (!this.canDeleteDevice(this.user?.active_at ?? 0)) return
             this.isConfirmDeleteDevice = true
         },
         async deleteDevice() {
-            if (!this.canDeleteDevice(this.user?.active_at ?? 0)) return
             let res = await this.api({
                 path: "/web/user/delete-device",
                 method: "POST"
             })
-            console.log(res, "delete device")
+            if (res.success) {
+                this.isConfirmDeleteDevice = false
+                this.getUser()
+            }
         },
         goToBuyPackage() {
             this.$router.push("/buy-pankage")
@@ -314,16 +315,7 @@ export default {
                 this.pagination.loading = false
             }
         },
-        canDeleteDevice(activeDate) {
-            if (!activeDate) return false
 
-            const activeDateObj = new Date(activeDate)
-            const refreshDate = new Date(activeDateObj.setMonth(activeDateObj.getMonth() + 1))
-            const now = new Date()
-
-            // Trả về true nếu đã hết thời gian chờ (refreshDate <= now)
-            return refreshDate.getTime() <= now.getTime()
-        },
         calculateDeviceRefreshTime(activeDate) {
             if (!activeDate) return "0 ngày"
 

@@ -44,7 +44,7 @@
                             </div>
                         </div>
                         <div class="button flex-al-jt mgt-20" style="border-radius: 10px; width: 100%" @click="goToPayment">Thanh toán ngay</div>
-                        <div class="flex-al-jt gap-5 mgt-30" style="cursor: pointer" @click="goToManage">
+                        <div class="flex-al-jt gap-5 mgt-30" style="cursor: pointer" @click="goToBuyPackage">
                             <img :src="img('icon_back.svg')" alt="" />
                             <div class="text-300 fz-16">Quay lại bảng giá</div>
                         </div>
@@ -141,6 +141,9 @@ export default {
         },
         goToManage() {
             this.$router.push("/settings")
+        },
+        goToBuyPackage() {
+            this.$router.push("/buy-package")
         },
         async goToPayment() {
             let res = await this.api({
