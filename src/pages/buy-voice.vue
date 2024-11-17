@@ -106,22 +106,22 @@ export default {
             selectedValue: null,
             voiceOptions: [
                 {
-                    value: 2000000,
-                    characters: "2.000.000 ký tự",
+                    value: 1500000,
+                    characters: "1.500.000 ký tự",
                     discountText: "Không có giảm giá",
                     discountClass: "text-300",
                     points: "300.000"
                 },
                 {
-                    value: 4000000,
-                    characters: "4.000.000 ký tự",
+                    value: 3000000,
+                    characters: "3.000.000 ký tự",
                     discountText: "Giảm 20%",
                     discountClass: "text-red",
                     points: "480.000"
                 },
                 {
-                    value: 8000000,
-                    characters: "8.000.000 ký tự",
+                    value: 6000000,
+                    characters: "6.000.000 ký tự",
                     discountText: "Giảm 50%",
                     discountClass: "text-green",
                     points: "600.000"

@@ -31,10 +31,22 @@
                 <div class="selects">
                     <div class="mgt-15">
                         <div>Thời hạn gói cước</div>
-                        <div class="flex-al gap-10 mgt-10">
-                            <div :class="{ active: selectCalendar === item.name }" class="item-select flex-al gap-5" v-for="item in calendar" :key="item.name" @click="selectCalendar = item.name">
-                                <Icon size="24" :src="img('icon_calendar.svg')" alt="" />
-                                <div>{{ item.name }}</div>
+                        <div class="gap-10 mgt-10">
+                            <div :class="{ active: selectCalendar === item.name }" class="item-select flex-bw-al" v-for="item in calendar" :key="item.name" @click="selectCalendar = item.name">
+                                <div class="flex-al gap-10">
+                                    <Icon size="24" :src="img('icon_calendar.svg')" alt="" />
+                                    <div>
+                                        <div class="fw-600">{{ item.name }}</div>
+                                        <div v-if="item.title !== 'Không giảm giá'" class="mgt-5 fw-400 fz-12 discounts" :style="{ background: item.class }">{{ item.title }}</div>
+                                        <div v-else class="mgt-5 fw-400 fz-12 text-300 discounts" style="padding: 0">Không giảm giá</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>{{ formattedAmountstart(item.name) }} Point</div>
+                                    <div class="mgt-5 fw-400 text-300">
+                                        {{ item.name === "6 tháng" ? (getAmountByPeriod(item.name) / 6).toLocaleString("vi-VN") + "/tháng" : item.name === "12 tháng" ? (getAmountByPeriod(item.name) / 12).toLocaleString("vi-VN") + "/tháng" : "" }}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -43,7 +55,7 @@
             <div class="creates">
                 <div class="flex-bw-al">
                     <div class="text-green">Tổng giá trị khách hàng:</div>
-                    <div class="text-green fw-600">{{ formattedAmount }}</div>
+                    <div class="text-green fw-600">{{ formattedAmount }} Point</div>
                 </div>
                 <div class="mgt-20 button flex-al-jt" @click="createClient">Tạo ngay</div>
                 <div class="mgt-15 flex-al-jt error">{{ error }}</div>
@@ -64,13 +76,18 @@ export default {
             email: "",
             calendar: [
                 {
-                    name: "1 tháng"
+                    name: "1 tháng",
+                    title: "Không giảm giá"
                 },
                 {
-                    name: "6 tháng"
+                    name: "6 tháng",
+                    title: "Giảm 40%",
+                    class: "red"
                 },
                 {
-                    name: "12 tháng"
+                    name: "12 tháng",
+                    title: "Giảm 50%",
+                    class: "red"
                 }
             ],
             packages: [
@@ -89,7 +106,7 @@ export default {
                 }
             ],
             selectPackage: "Normal",
-            selectCalendar: "Theo tháng"
+            selectCalendar: ""
         }
     },
     created() {
@@ -111,8 +128,8 @@ export default {
         },
         formattedAmount() {
             return new Intl.NumberFormat("vi-VN", {
-                style: "currency",
-                currency: "VND"
+                maximumFractionDigits: 0,
+                useGrouping: true // giữ lại dấu phân cách hàng nghìn
             }).format(this.totalAmount)
         }
     },
@@ -120,26 +137,36 @@ export default {
         openAddClient() {
             this.isAddClient = true
         },
+        getAmountByPeriod(period) {
+            const prices = priceStore().price
+            const packageMap = {
+                "1 tháng": "Theo tháng",
+                "6 tháng": "Theo quý",
+                "12 tháng": "Theo năm"
+            }
+
+            const mappedPeriod = packageMap[period]
+            const priceData = prices.find(p => p.period === mappedPeriod)
+            return priceData ? priceData.price : 0
+        },
+        formattedAmountstart(period) {
+            const amount = this.getAmountByPeriod(period)
+            return new Intl.NumberFormat("vi-VN", {
+                maximumFractionDigits: 0,
+                useGrouping: true // giữ lại dấu phân cách hàng nghìn
+            }).format(amount)
+        },
         img(data) {
             return "images/admin-panel/" + data
         },
-        createClient() {
+
+        async createClient() {
             if (!this.email || !this.password) {
                 this.error = "Vui lòng nhập đẩy đủ thông tin"
                 return
             }
-            this.isAddClient = false
-            let data = {
-                email: this.email,
-                password: this.password,
-                package: this.selectPackage,
-                calendar: this.selectCalendar
-            }
-            this.$emit("createClient", data)
-        },
-        async createClient() {
-            if (!this.email || !this.password) {
-                this.error = "Vui lòng nhập đẩy đủ thông tin"
+            if (this.selectCalendar === "") {
+                this.error = "Vui lòng chọn thời hạn gói cước"
                 return
             }
             let calendar
@@ -173,7 +200,7 @@ export default {
         },
         generatePassword() {
             const length = 12 // độ dài mật khẩu
-            const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*"
+            const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
             let result = ""
 
             for (let i = 0; i < length; i++) {
@@ -201,7 +228,7 @@ export default {
         background: #1b2127;
         box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
         width: 559px;
-        height: 563px;
+        height: 699px;
         padding-block: 30px;
         .creates {
             padding: 20px 30px;
@@ -239,6 +266,7 @@ export default {
                 border-top: 1px dashed rgba(255, 255, 255, 0.1);
                 margin-top: 10px;
                 .item-select {
+                    margin-top: 10px;
                     cursor: pointer;
                     padding: 9px 10px;
                     width: 100%;
@@ -252,6 +280,11 @@ export default {
                         color: #f0ba2e;
                         border: 1px solid #f0ba2e;
                         background: rgba(255, 183, 15, 0.07);
+                    }
+
+                    .discounts {
+                        border-radius: 10px;
+                        padding: 2px 6px;
                     }
                 }
             }

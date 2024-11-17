@@ -33,7 +33,7 @@
                             <img :src="img('icon_buy.svg')" alt="" />
                             <div>Mua gói</div>
                         </div>
-                        <div class="button flex-al-jt">Nạp Point</div>
+                        <div @click="goToBuyPoint" class="button flex-al-jt">Nạp Point</div>
                     </div>
                 </div>
             </div>
@@ -245,6 +245,9 @@ export default {
     methods: {
         img(data) {
             return "images/admin-panel/" + data
+        },
+        goToBuyPoint() {
+            window.open("https://www.facebook.com/mongkytruyen", "_blank")
         },
         getColorByPercentage(total, used) {
             const totalAmount = total ?? 0

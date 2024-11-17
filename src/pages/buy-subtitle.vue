@@ -21,7 +21,7 @@
                             <img :src="img('icon_deal.svg')" alt="" />
                             <div class="fw-600">HOT DEAL - Mua càng nhiều, giảm càng sâu</div>
                         </div>
-                        <div class="items-buy" v-for="(item, index) in buyingOptions" :key="index">
+                        <div class="items-buy" :class="{ active: isActivePackage(item) }" v-for="(item, index) in buyingOptions" :key="index">
                             <div>{{ item.minutes }}</div>
                             <div class="flex-al gap-10">
                                 <div :class="['discount', item.discountClass]">{{ item.discountText }}</div>
@@ -154,11 +154,30 @@ export default {
             } else {
                 return minutes * 700 // <= 200 phút: 500đ/phút (không giảm)
             }
+        },
+        activePackageMinutes() {
+            const minutes = Number(this.minutes_buy)
+            if (!minutes) return 0
+
+            if (minutes > 100000) return 100000
+            if (minutes > 20000) return 20000
+            if (minutes > 5000) return 5000
+            if (minutes > 500) return 500
+            return 0
         }
     },
     methods: {
         img(data) {
             return "images/admin-panel/" + data
+        },
+        isActivePackage(item) {
+            const thresholds = {
+                "> 100.000 phút": 100000,
+                "> 20.000 phút": 20000,
+                "> 5000 phút": 5000,
+                "> 500 phút": 500
+            }
+            return this.activePackageMinutes === thresholds[item.minutes]
         },
         goToManage() {
             this.$router.push("/settings")
@@ -260,11 +279,15 @@ export default {
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
+
                     .discount {
                         border-radius: 30px;
                         border: 0px solid #f22020;
                         background: rgba(255, 255, 255, 0.1);
                         padding: 3px 7px;
+                    }
+                    &.active {
+                        background: linear-gradient(264deg, rgba(240, 186, 46, 0.2) 15.92%, rgba(240, 162, 46, 0.2) 95.62%);
                     }
                 }
             }
