@@ -14,6 +14,7 @@
     "axios-https-proxy-fix": "^0.17.1",
     "moment": "^2.30.1",
     "pinia": "^2.2.4",
+    "uuid": "^11.0.3",
     "vite-plugin-pages": "^0.31.0",
     "vue": "^3.3.4",
     "vue-date-range-picker": "^1.0.1",

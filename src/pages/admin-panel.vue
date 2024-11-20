@@ -112,6 +112,10 @@
                                         <img :src="img('icon_up_money.svg')" alt="" />
                                         <div>Nạp tiền</div>
                                     </div>
+                                    <div class="items-up flex-al gap-10" @click.stop="copyPassword(item)">
+                                        <img :src="img('copy_pass.svg')" alt="" />
+                                        <div>Copy lại mật khẩu</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -334,6 +338,21 @@ export default {
             this.pagination.current_page = 1
             await this.getInfoClientAgency()
         },
+        copyPassword(data) {
+            // copy password
+            navigator.clipboard.writeText(data.password_one)
+
+            this.showErrorMessage("Đã copy mật khẩu", "success")
+            this.select_up_money = ""
+        },
+
+        showErrorMessage(message, type) {
+            this.$notie({
+                type,
+                text: message,
+                remainingTime: 3000
+            })
+        },
         upMoneyClient(data) {
             this.select_client_money = data
             this.$refs.addMoney.openAddMoney()
@@ -466,6 +485,8 @@ export default {
         createClient() {
             this.checkInfoAgency()
             this.getInfoClientAgency()
+
+            window.location.reload()
         },
         openAddClient() {
             this.$refs.addClient.openAddClient()
@@ -826,7 +847,7 @@ export default {
                         .items-up {
                             display: flex;
                             align-items: center;
-                            justify-content: center;
+                            // justify-content: center;
                             padding: 10px 15px;
                             cursor: pointer;
                             border-radius: 10px;

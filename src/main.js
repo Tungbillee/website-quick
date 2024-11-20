@@ -6,7 +6,8 @@ import globalFunction from "./global"
 import Icon from "./components/IconMask.vue"
 import VueObserveVisibility from "vue3-observe-visibility"
 import "animate.css"
-
+import Toast from "./components/toast.vue"
+import toastPlugin from "./toastPlugin"
 const pinia = createPinia()
 const app = createApp(App)
 app.use(pinia)
@@ -32,6 +33,9 @@ globalFunction
         let userStore = useUserStore()
         userStore.setAuth(e)
         app.use(router)
+        app.use(toastPlugin)
+
+        app.component("Toast", Toast)
         app.mount("#app")
         setTimeout(() => {
             AOS.init({

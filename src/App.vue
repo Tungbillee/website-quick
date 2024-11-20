@@ -1,11 +1,16 @@
 <template>
     <div>
         <router-view />
+        <toast ref="Toast" />
     </div>
 </template>
 
 <script>
-export default {}
+export default {
+    mounted() {
+        window.myToast = this.$refs.Toast
+    }
+}
 </script>
 
 <style lang="scss">
