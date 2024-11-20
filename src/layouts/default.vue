@@ -21,7 +21,7 @@
                     </div>
                     <div class="select-options popup-animations-top flex-cl" v-if="isLogin && is_open_settings">
                         <div class="item-option" v-if="is_profile?.is_agency" @click="openAmin">Admin Panel</div>
-                        <div class="item-option" @click="settingsOption">Cài đặt</div>
+                        <div class="item-option" @click="settingsOption">Quản lý tài khoản</div>
                         <div class="item-option" @click="logout">Đăng xuất</div>
                     </div>
 
