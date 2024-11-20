@@ -289,7 +289,6 @@ export default {
             }, 700)
         },
         selected_type(newVal) {
-            console.log(newVal, "newVal")
             if (newVal === "transaction") {
                 setTimeout(() => {
                     this.openDateRangePicker()
@@ -313,8 +312,6 @@ export default {
             }
         },
         type_money(newVal) {
-            console.log(newVal, "newVal")
-
             if (newVal === "in") {
                 this.data_trade_money = []
                 this.pagination_trade_money.current_page = 1
@@ -332,19 +329,16 @@ export default {
             return "images/admin-panel/" + data
         },
         async successRecharge() {
-            console.log("successRecharge")
             await this.checkInfoAgency()
             this.data_client = []
             this.pagination.current_page = 1
             await this.getInfoClientAgency()
         },
         upMoneyClient(data) {
-            console.log(data, "data")
             this.select_client_money = data
             this.$refs.addMoney.openAddMoney()
         },
         openDateRangePicker() {
-            console.log("openDateRangePicker")
             $('input[name="datetimes"]').daterangepicker(
                 {
                     ranges: {
@@ -364,7 +358,6 @@ export default {
                 },
                 (start, end, label) => {
                     this.dateRange = start.format("DD/MM/YYYY") + " - " + end.format("DD/MM/YYYY")
-                    console.log(start.format("DD/MM/YYYY") + " - " + end.format("DD/MM/YYYY"))
                 }
             )
         },
@@ -488,8 +481,6 @@ export default {
         },
 
         async getTradeMoneyIn() {
-            console.log()
-
             if (this.pagination_trade_money.loading) return // Prevent multiple requests
             this.pagination_trade_money.loading = true
             let res = await this.api({
@@ -501,7 +492,6 @@ export default {
                     limit: this.pagination_trade_money.per_page
                 }
             })
-            console.log(res.data, "data in")
 
             if (res.success) {
                 // Append new data to existing array
@@ -543,7 +533,6 @@ export default {
                     limit: this.pagination_trade_money.per_page
                 }
             })
-            console.log(res.data)
 
             if (res.success) {
                 // Append new data to existing array
@@ -609,8 +598,6 @@ export default {
             }
         },
         loadMoreVideos(isVisible) {
-            console.log(isVisible, "isVisible")
-
             if (isVisible && !this.pagination.loading) {
                 // Check if we haven't reached the last page
                 if (this.pagination.current_page < this.pagination.total_pages) {

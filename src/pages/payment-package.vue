@@ -17,7 +17,14 @@
                         </div>
                         <div class="flex-al gap-10 mgt-20">
                             <img :src="img('icon_ok.svg')" alt="" />
-                            <div class="title-content">{{ formatNumber(select_package?.time ?? 0) }} phút tạo phụ đề AI & {{ formatNumber(select_package?.voice ?? 0) }} ký tự lồng tiếng tự động AI</div>
+                            <div class="title-content">
+                                <div>
+                                    {{ formatNumber(select_package?.time ?? 0) }} + <span class="text-yellow">bonus {{ formatNumber(select_package.bonus_time) }} </span> phút tạo phụ đề AI
+                                </div>
+                                <div class="mgt-10">
+                                    {{ formatNumber(select_package?.voice ?? 0) }} + <span class="text-yellow">bonus {{ formatNumber(select_package.bonus_voice) }} </span> ký tự lồng tiếng AI
+                                </div>
+                            </div>
                         </div>
                         <div class="mgt-20 dashed"></div>
                         <div class="flex-bw-al" style="width: 100%">
@@ -131,7 +138,6 @@ export default {
     created() {
         this.getUser()
         this.select_package = JSON.parse(localStorage.getItem("select_package"))
-        console.log(this.select_package, "select_package")
 
         this.price = priceStore().price
     },
@@ -154,7 +160,6 @@ export default {
                     selected_period: this.select_package.period
                 }
             })
-            console.log(res, "kết quả")
 
             if (res.success) {
                 this.is_buy = false
@@ -179,7 +184,6 @@ export default {
             } catch (error) {
                 console.error("Error fetching user info:", error)
                 if (retryCount > 0) {
-                    console.log(`Retrying... ${retryCount} attempts left`)
                     // Đợi 1 giây trước khi thử lại
                     await new Promise(resolve => setTimeout(resolve, 1000))
                     return this.getUser(retryCount - 1)

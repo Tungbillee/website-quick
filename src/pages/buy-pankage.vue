@@ -11,6 +11,36 @@
                         </div>
                     </div>
                 </div>
+                <div class="bonus-package flex-bw-al">
+                    <div class="flex-al gap-10">
+                        <img :src="img('icon_bonus.svg')" alt="" />
+                        <div>
+                            <div class="text-yellow">Khuyến mãi mừng ra mắt</div>
+                            <div class="fw-600 mgt-10">Tặng bonus lên đến <span class="item-bonus">200%</span> khi mua gói cước - chi tiết xem ở từng gói</div>
+                        </div>
+                    </div>
+                    <div class="flex-al gap-10">
+                        <div class="flex-al gap-5">
+                            <div class="time">{{ countdown.days }}</div>
+                            <div>Ngày</div>
+                        </div>
+                        <div class="text-300">:</div>
+                        <div class="flex-al gap-5">
+                            <div class="time">{{ countdown.hours }}</div>
+                            <div>giờ</div>
+                        </div>
+                        <div class="text-300">:</div>
+                        <div class="flex-al gap-5">
+                            <div class="time">{{ countdown.minutes }}</div>
+                            <div>phút</div>
+                        </div>
+                        <div class="text-300">:</div>
+                        <div class="flex-al gap-5">
+                            <div class="time">{{ countdown.seconds }}</div>
+                            <div>giây</div>
+                        </div>
+                    </div>
+                </div>
                 <div class="flex gap-20 mgt-20" style="align-items: end">
                     <div
                         v-for="(item, index) in packagesData"
@@ -18,7 +48,7 @@
                         class="items-pankage flex-cl gap-40"
                         :style="{
                             backgroundImage: `url(/images/admin-panel/${item.name}.png)`,
-                            height: index === 1 ? '650px' : '594px'
+                            height: index === 1 ? '650px' : '610px'
                         }">
                         <div class="flex-cl gap-15">
                             <div class="flex-al gap-10">
@@ -30,36 +60,59 @@
                                 </div>
                                 <div class="text-300 fz-16 mgt-5">{{ item.content }}</div>
                             </div>
-                            <div v-if="item.name === 'Pro'">
-                                <span class="fz-24 fw-600">{{ formatNumber(item.price / 12) }}</span> <span class="text-300">point/tháng</span>
+                            <div class="flex-al gap-15" v-if="item.name === 'Pro'">
+                                <div>
+                                    <span class="fz-24 fw-600">{{ formatNumber(item.price / 12) }}</span> <span class="text-300">point/tháng</span>
+                                </div>
+                                <div class="voucher">Giảm 50%</div>
                             </div>
-                            <div v-if="item.name === 'Advance'">
-                                <span class="fz-24 fw-600">{{ formatNumber(item.price / 6) }}</span> <span class="text-300">point/tháng</span>
+                            <div class="flex-al gap-15" v-if="item.name === 'Advance'">
+                                <div>
+                                    <span class="fz-24 fw-600">{{ formatNumber(item.price / 6) }}</span> <span class="text-300">point/tháng</span>
+                                </div>
+                                <div class="voucher">Giảm 40%</div>
                             </div>
                             <div v-if="item.name === 'Normal'">
                                 <span class="fz-24 fw-600">{{ formatNumber(item.price) }}</span> <span class="text-300">point/tháng</span>
                             </div>
                         </div>
                         <div class="button-buy" :class="{ active: item.name === 'Advance' }" @click="buyPackage(item)">Mua ngay</div>
-                        <div class="flex-cl gap-20">
+                        <div class="flex-cl gap-20 ps-rl">
                             <div class="flex-al gap-10">
                                 <img :src="img('icon_ok.svg')" alt="" />
-                                <div class="title-content">Phụ đề & lồng tiếng tự động</div>
+                                <div class="title-content">Phụ đề & lồng tiếng tự động AI</div>
+                                <div class="all-tooltip">
+                                    <img class="icon-info" :src="img('icon_info.svg')" alt="" />
+                                    <div class="tooltip-info">
+                                        <div style="color: #1f2937"><span class="fw-600">Phút tạo phụ đề:</span> giúp ban chuyển đổi âm thanh có giọng nói trong video thành văn bản phụ đề</div>
+                                        <div class="mgt-20" style="color: #1f2937"><span class="fw-600">Ký tự lồng tiếng:</span> Giúp bạn chuyển đổi văn bản thành giọng nói AI</div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="flex-al gap-20" style="padding-left: 20px">
                                 <img :src="img('icon_ok_sub.svg')" alt="" />
                                 <div>
                                     <div>
-                                        <span class="title-content fw-600">{{ formatNumber(item.time) }}</span> <span class="text-300 title-content">phút tạo phụ đề</span>
+                                        <span class="title-content fw-600"
+                                            >{{ formatNumber(item.time) }} + <span class="text-yellow">bonus {{ formatNumber(item.bonus_time) }} </span></span
+                                        >
+                                        <span class="text-300 title-content"> phút tạo phụ đề</span>
                                     </div>
                                     <div class="mgt-15">
-                                        <span class="title-content fw-600">{{ formatNumber(item.voice) }}</span> <span class="text-300 title-content">Ký tự lồng tiếng</span>
+                                        <span class="title-content fw-600"
+                                            >{{ formatNumber(item.voice) }} + <span class="text-yellow">bonus {{ formatNumber(item.bonus_voice) }} </span></span
+                                        >
+                                        <span class="text-300 title-content"> Ký tự lồng tiếng</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="flex-al gap-10">
                                 <img :src="img('icon_ok.svg')" alt="" />
                                 <div class="title-content">Sản xuất video bản tin hàng loạt</div>
+                            </div>
+                            <div class="flex-al gap-10">
+                                <img :src="img('icon_ok.svg')" alt="" />
+                                <div class="title-content">Sản xuất video Meme hàng loạt</div>
                             </div>
                             <div class="flex-al gap-10">
                                 <img :src="img('icon_ok.svg')" alt="" />
@@ -103,6 +156,13 @@ export default {
                 { value: "quarter", label: "Theo quý" },
                 { value: "year", label: "Theo năm" }
             ],
+            countdown: {
+                days: 0,
+                hours: 0,
+                minutes: 0,
+                seconds: 0
+            },
+            timer: null,
             minutes_buy: 0,
             voice_buy: 0,
             totalPrice: 0,
@@ -130,14 +190,46 @@ export default {
     computed: {
         packagesData() {
             const prices = priceStore().price
-            console.log(prices, "prices")
+
             return prices
+        }
+    },
+    beforeDestroy() {
+        if (this.timer) {
+            clearInterval(this.timer)
         }
     },
     created() {
         this.getUser()
+        this.startTimer()
     },
     methods: {
+        startTimer() {
+            // Đặt ngày bắt đầu
+            const startDate = new Date("2024-11-21")
+            // Thêm 60 ngày để có ngày kết thúc
+            const endDate = new Date(startDate.getTime() + 60 * 24 * 60 * 60 * 1000)
+
+            this.timer = setInterval(() => {
+                const now = new Date()
+                const difference = endDate - now
+
+                if (difference > 0) {
+                    this.countdown.days = Math.floor(difference / (1000 * 60 * 60 * 24))
+                    this.countdown.hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+                    this.countdown.minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60))
+                    this.countdown.seconds = Math.floor((difference % (1000 * 60)) / 1000)
+                } else {
+                    clearInterval(this.timer)
+                    this.countdown = {
+                        days: 0,
+                        hours: 0,
+                        minutes: 0,
+                        seconds: 0
+                    }
+                }
+            }, 1000)
+        },
         getIconByName(iconName) {
             const iconMap = {
                 Normal: "icon_plus.svg",
@@ -227,28 +319,92 @@ export default {
     }
     .list-pankage {
         height: calc(100% - 150px);
+
+        .bonus-package {
+            border-radius: 10px;
+            border: 1px solid rgba(255, 183, 15, 0.6);
+            background: rgba(255, 255, 255, 0.09);
+            height: 70px;
+            padding: 12px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            width: 100%;
+            .item-bonus {
+                padding: 2px 6px;
+                border-radius: 40px;
+                background: linear-gradient(264deg, #f0ba2e 15.92%, #f0a22e 95.62%);
+            }
+            .time {
+                font-size: 20px;
+                font-weight: 600;
+                color: #f0a22e;
+                border-radius: 10px;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                background: rgba(255, 255, 255, 0.06);
+                padding: 10px;
+                width: 47px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
         .items-pankage {
             width: 100%;
             border-radius: 10px;
-            overflow: hidden;
-            min-width: 393px;
+
+            min-width: 400px;
             height: 594px;
             background-size: cover;
             background-position: center;
-            padding: 30px 40px;
+            padding: 30px;
             .title-name {
                 font-size: 20px;
                 font-weight: 600;
                 line-height: 20px;
             }
+            .voucher {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 600;
+                border-radius: 40px;
+                background: #f00;
+                padding: 5px 10px;
+            }
             .title-content {
                 font-size: 16px;
-                line-height: 18px;
+                line-height: 24px;
+            }
+            .all-tooltip {
+                &:hover {
+                    .tooltip-info {
+                        display: block;
+                    }
+                }
+                .icon-info {
+                    cursor: pointer;
+                    &:hover {
+                        opacity: 0.7;
+                    }
+                }
+                .tooltip-info {
+                    display: none;
+                    position: absolute;
+                    z-index: 1000;
+                    top: 25px;
+                    left: -35px;
+                    width: 408px;
+                    height: 123px;
+                    border-radius: 12px;
+                    background: #fff;
+                    padding: 18px;
+                }
             }
             .button-buy {
                 border-radius: 10px;
                 border: 1px solid #f0ba2e;
-                height: 40px;
+                min-height: 40px;
                 display: flex;
                 align-items: center;
                 justify-content: center;

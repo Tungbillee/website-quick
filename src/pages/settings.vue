@@ -102,7 +102,7 @@
                                     }"></div>
                             </div>
                         </div>
-                        <div class="buy-minutes flex-al-jt" @click="goToBuySubtitle">Mua thêm</div>
+                        <!-- <div class="buy-minutes flex-al-jt" @click="goToBuySubtitle">Mua thêm</div> -->
                     </div>
                     <div class="infos flex-bw-al">
                         <div>
@@ -125,7 +125,7 @@
                                     }"></div>
                             </div>
                         </div>
-                        <div class="buy-minutes flex-al-jt" @click="goToBuyVoice">Mua thêm</div>
+                        <!-- <div class="buy-minutes flex-al-jt" @click="goToBuyVoice">Mua thêm</div> -->
                     </div>
                 </div>
                 <div class="transaction" v-if="type_manage === 'giaodich'">
@@ -308,7 +308,7 @@ export default {
                     limit: this.pagination.per_page
                 }
             })
-            console.log(res, "payment history")
+
             if (res.success) {
                 // Append new data to existing array
                 this.dataPaymentHistory = [...this.dataPaymentHistory, ...res.payment_history]
@@ -342,7 +342,6 @@ export default {
                 let res = await this.api({
                     path: "/web/user/get-info"
                 })
-                console.log(res, "user info")
 
                 if (res.success) {
                     this.user = res.data_user
@@ -352,7 +351,6 @@ export default {
             } catch (error) {
                 console.error("Error fetching user info:", error)
                 if (retryCount > 0) {
-                    console.log(`Retrying... ${retryCount} attempts left`)
                     // Đợi 1 giây trước khi thử lại
                     await new Promise(resolve => setTimeout(resolve, 1000))
                     return this.getUser(retryCount - 1)
@@ -441,7 +439,6 @@ export default {
             }
         },
         openDateRangePicker() {
-            console.log("openDateRangePicker")
             $('input[name="datetimes_payment"]').daterangepicker(
                 {
                     ranges: {
@@ -461,7 +458,6 @@ export default {
                 },
                 (start, end, label) => {
                     this.dateRange = start.format("DD/MM/YYYY") + " - " + end.format("DD/MM/YYYY")
-                    console.log(start.format("DD/MM/YYYY") + " - " + end.format("DD/MM/YYYY"))
                 }
             )
         }

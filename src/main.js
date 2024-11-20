@@ -20,8 +20,6 @@ globalFunction
         method: "GET"
     })
     .then(e => {
-        console.log(e, "dữ liệusdfsdfdsfdsfds")
-
         let price = priceStore()
         price.setPrice(e)
     })
@@ -31,8 +29,6 @@ globalFunction
         method: "GET"
     })
     .then(e => {
-        console.log(e, "dữ liệu")
-
         let userStore = useUserStore()
         userStore.setAuth(e)
         app.use(router)

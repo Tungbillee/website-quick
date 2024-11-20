@@ -1,5 +1,4 @@
 import { defineStore } from "pinia"
-console.log(defineStore)
 
 export const useUserStore = defineStore({
     id: "user",
