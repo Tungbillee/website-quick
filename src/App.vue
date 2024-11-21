@@ -21,7 +21,22 @@ export default {
     padding: 0;
     box-sizing: border-box;
 }
+/* Tắt background autofill cho Chrome/Safari */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px transparent inset !important;
+    -webkit-text-fill-color: #fff !important;
+    transition: background-color 5000s ease-in-out 0s;
+    background: transparent !important;
+}
 
+/* Cho Firefox */
+input:autofill {
+    background: transparent !important;
+    color: #fff !important;
+}
 :root {
     --ds: linear-gradient(264deg, #f0ba2e 15.92%, #f0a22e 95.62%);
     --Pri: linear-gradient(90deg, #0798d8 0%, #0ad7a2 100%);

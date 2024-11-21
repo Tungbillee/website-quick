@@ -7,7 +7,7 @@
                 <form v-on:keyup.enter="onLogin">
                     <div class="wrap flex-al" :class="{ active: email_login }">
                         <Icon :src="img('people.svg')" alt="" />
-                        <input class="flex-al ip-pass" style="height: 20px" type="text" v-model="email_login" placeholder="Điền email đăng nhập..." />
+                        <input class="flex-al" style="height: 20px" type="text" v-model="email_login" placeholder="Điền email đăng nhập..." />
                     </div>
                     <div class="wrap flex-bw-al gap-5" :class="{ active: password_login }">
                         <div class="flex align" style="width: 100%">
@@ -26,7 +26,6 @@
                             <input type="checkbox" name="" id="" v-model="miss_password" />
                             <div>Nhớ mật khẩu</div>
                         </div>
-                        <div class="forgot" @click="forgotPassword">Quên mật khẩu?</div>
                     </div>
                     <div class="mgt-30 button flex-al-jt" @click="onLogin">Đăng nhập</div>
                 </form>
@@ -83,6 +82,9 @@ export default {
         img(data) {
             return "images/login/" + data
         },
+        showpass() {
+            this.showPassword = !this.showPassword
+        },
         async onLogin() {
             let res = await this.api({
                 path: "/auth/signin",
@@ -132,17 +134,26 @@ export default {
                 color: #f0ba2e;
             }
 
+            input[type="text"],
+            input[type="password"],
             .ip-pass {
                 color: #fff;
                 height: 100%;
                 width: 100%;
                 border: none;
-                background: none;
+                outline: none;
+                background: transparent !important;
                 padding-inline: 8px;
             }
+
+            /* Style cho trạng thái focus của cả 2 loại input */
+            input[type="text"]:focus,
+            input[type="password"]:focus,
             .ip-pass:focus {
-                border-color: var(--P500, #4a44dd);
+                background: transparent !important;
                 outline: none;
+                box-shadow: none;
+                appearance: none !important;
             }
         }
     }
