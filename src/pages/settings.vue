@@ -195,9 +195,9 @@
                             <div><span class="text-300">Trạng thái: </span> Tất cả</div>
                             <img :src="img('icon_arrow.svg')" alt="" />
                             <div class="select-action" v-if="show_history_action">
-                                <div class="items">Tất cả</div>
-                                <div class="items">Thành công</div>
-                                <div class="items">Thất bại</div>
+                                <div class="items" @click="type_status_history = 'all'">Tất cả</div>
+                                <div class="items" @click="type_status_history = 'done'">Thành công</div>
+                                <div class="items" @click="type_status_history = 'error'">Thất bại</div>
                             </div>
                         </div>
                     </div>
@@ -209,18 +209,21 @@
                             <div class="title-history" style="min-width: 150px">Trạng thái</div>
                         </div>
                         <div class="body-history">
-                            <div class="item-history flex-al">
-                                <div class="title-history" style="min-width: 200px">12:05 - 22/10/2022</div>
-                                <div class="title-history" style="min-width: 220px; width: 50%">Quickmagic_12324232</div>
+                            <div class="item-history flex-al" v-for="item in dataHistoryAction" :key="item.id">
+                                <div class="title-history" style="min-width: 200px">{{ formatExpiryDate(item?.created_at) }}</div>
+                                <div class="title-history" style="min-width: 220px; width: 50%">{{ item?.name }}</div>
                                 <div class="title-history flex-al gap-5" style="min-width: 250px; width: 50%">
-                                    <div>12 ký tự <span class="text-300">lồng tiếng</span></div>
+                                    <div>{{ item?.sum_character_voice }} ký tự <span class="text-300">lồng tiếng</span></div>
                                     <div class="text-300">|</div>
-                                    <div>12 phút <span class="text-300">phụ đề</span></div>
+                                    <div>{{ item?.minutes_used }} phút <span class="text-300">phụ đề</span></div>
                                 </div>
                                 <div class="title-history" style="min-width: 150px">
-                                    <div class="text-green">Thành công</div>
+                                    <div class="text-green" v-if="item.status === 'done'">Thành công</div>
+                                    <div class="text-red" v-if="item.status === 'error'">Thất bại</div>
+                                    <div class="text-yellow" v-if="item.status === 'processing'">Đang xử lý</div>
                                 </div>
                             </div>
+                            <div v-observe-visibility="loadMoreHistoryAction" ref="sentinel" class="sentinel"></div>
                         </div>
                     </div>
                 </div>
@@ -261,6 +264,15 @@ export default {
                 total_pages: 0,
                 loading: false
             },
+            type_status_history: "all",
+            dataHistoryAction: [],
+            pagination_history: {
+                current_page: 1,
+                per_page: 10,
+                total: 0,
+                total_pages: 0,
+                loading: false
+            },
             dateRangeHistory: ""
         }
     },
@@ -290,17 +302,29 @@ export default {
             this.dataPaymentHistory = []
             this.pagination.current_page = 1
             this.getPaymentHistory()
+        },
+        dateRangeHistory(val) {
+            this.dataHistoryAction = []
+            this.pagination_history.current_page = 1
+            this.getHistoryAction()
+        },
+        type_status_history(val) {
+            this.dataHistoryAction = []
+            this.pagination_history.current_page = 1
+            this.getHistoryAction()
         }
     },
     created() {
         this.getUser()
         this.getPaymentHistory()
+        this.getHistoryAction()
     },
 
     methods: {
         img(data) {
             return "images/admin-panel/" + data
         },
+
         clickpageAccount(data) {
             this[data] = !this[data]
             if (this[data]) {
@@ -353,6 +377,40 @@ export default {
         },
         goToBuyVoice() {
             this.$router.push("/buy-voice")
+        },
+        loadMoreHistoryAction(isVisible) {
+            if (isVisible && !this.pagination_history.loading) {
+                if (this.pagination_history.current_page < this.pagination_history.total_pages) {
+                    this.pagination_history.current_page += 1
+                    this.getHistoryAction()
+                }
+            }
+        },
+
+        async getHistoryAction() {
+            if (this.pagination_history.loading) return
+            this.pagination_history.loading = true
+            let res = await this.api({
+                path: "/web/user/get-history-video",
+                params: {
+                    date_range: this.dateRangeHistory,
+                    type: this.type_status_history,
+                    page: this.pagination_history.current_page,
+                    limit: this.pagination_history.per_page
+                }
+            })
+            console.log(this.dateRangeHistory)
+
+            console.log(res)
+
+            if (res.success) {
+                // Append new data to existing array
+                this.dataHistoryAction = [...this.dataHistoryAction, ...res.data]
+                // Update pagination info
+                this.pagination_history.total = res.pagination.total
+                this.pagination_history.total_pages = res.pagination.total_pages
+                this.pagination_history.loading = false
+            }
         },
         loadMorePayment(isVisible) {
             if (isVisible && !this.pagination.loading) {
@@ -764,6 +822,7 @@ export default {
                         width: 196px;
                         height: 140px;
                         border-radius: 10px;
+                        z-index: 10;
                         background: #191c28;
                         .items {
                             height: 40px;
@@ -811,11 +870,15 @@ export default {
                 .table-history {
                     margin-top: 20px;
                     height: calc(100% - 70px);
+                    overflow: auto;
                     .header-history {
+                        position: sticky;
+                        top: 0;
+                        left: 0;
                         padding-inline: 12px;
                         height: 40px;
                         border-radius: 5px;
-                        background: rgba(255, 255, 255, 0.03);
+                        background: rgb(39, 40, 45);
                     }
                     .body-history {
                         height: calc(100% - 40px);
