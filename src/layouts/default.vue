@@ -9,6 +9,7 @@
                     <div class="options-text" @click="scrollToSection">Tính năng</div>
                     <div class="options-text" @click="helper">Hỗ trợ</div>
                     <div class="options-text" @click="goToBuyPackage">Bảng giá</div>
+                    <div class="options-text" @click="goToListAgency">Liên hệ</div>
                 </div>
 
                 <div class="flex-al gap-10 ps-rl">
@@ -157,6 +158,9 @@ export default {
         },
         img(data) {
             return "images/default/" + data
+        },
+        goToListAgency() {
+            this.$router.push("/list-agency")
         },
         helper() {
             this.$router.push("/helper")

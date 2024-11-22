@@ -180,6 +180,50 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="transaction" v-if="type_manage === 'history'">
+                    <div class="header-history flex-bw-al">
+                        <div class="selects-type flex-al gap-3">
+                            <img :src="img('icon_lich.svg')" alt="" />
+                            <div class="text-300">
+                                <input type="text" name="datetimes_history" class="text-300" />
+                            </div>
+                            <img :src="img('icon_arrow.svg')" alt="" />
+                        </div>
+                        <div class="selects-type flex-al gap-6 popup-class" @click="clickpageAccount('show_history_action')">
+                            <img :src="img('icon_filter.svg')" alt="" />
+                            <div><span class="text-300">Trạng thái: </span> Tất cả</div>
+                            <img :src="img('icon_arrow.svg')" alt="" />
+                            <div class="select-action" v-if="show_history_action">
+                                <div class="items">Tất cả</div>
+                                <div class="items">Thành công</div>
+                                <div class="items">Thất bại</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-history">
+                        <div class="header-history flex-al">
+                            <div class="title-history" style="min-width: 200px">Thời gian</div>
+                            <div class="title-history" style="min-width: 220px; width: 50%">Video</div>
+                            <div class="title-history" style="min-width: 250px; width: 50%">Chi tiết hành động</div>
+                            <div class="title-history" style="min-width: 150px">Trạng thái</div>
+                        </div>
+                        <div class="body-history">
+                            <div class="item-history flex-al">
+                                <div class="title-history" style="min-width: 200px">12:05 - 22/10/2022</div>
+                                <div class="title-history" style="min-width: 220px; width: 50%">Quickmagic_12324232</div>
+                                <div class="title-history flex-al gap-5" style="min-width: 250px; width: 50%">
+                                    <div>12 ký tự <span class="text-300">lồng tiếng</span></div>
+                                    <div class="text-300">|</div>
+                                    <div>12 phút <span class="text-300">phụ đề</span></div>
+                                </div>
+                                <div class="title-history" style="min-width: 150px">
+                                    <div class="text-green">Thành công</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="confirm-delete-device flex-al-jt" v-if="isConfirmDeleteDevice">
@@ -207,6 +251,7 @@ export default {
             type_transaction: "payment",
             dateRange: "",
             dataPaymentHistory: [],
+            show_history_action: false,
             user: {},
             isConfirmDeleteDevice: false,
             pagination: {
@@ -215,15 +260,25 @@ export default {
                 total: 0,
                 total_pages: 0,
                 loading: false
-            }
+            },
+            dateRangeHistory: ""
         }
     },
     watch: {
         type_manage(val) {
             if (val === "giaodich") {
-                setTimeout(() => {
-                    this.openDateRangePicker()
-                }, 500)
+                this.$nextTick(() => {
+                    setTimeout(() => {
+                        this.openDateRangePicker()
+                    }, 500)
+                })
+            }
+            if (val === "history") {
+                this.$nextTick(() => {
+                    setTimeout(() => {
+                        this.openDateRangePickerHistory()
+                    }, 500)
+                })
             }
         },
         type_transaction(val) {
@@ -245,6 +300,18 @@ export default {
     methods: {
         img(data) {
             return "images/admin-panel/" + data
+        },
+        clickpageAccount(data) {
+            this[data] = !this[data]
+            if (this[data]) {
+                const closeFunction = event => {
+                    if (!event.target.closest(".popup-class")) {
+                        this[data] = false
+                        window.removeEventListener("click", closeFunction)
+                    }
+                }
+                window.addEventListener("click", closeFunction)
+            }
         },
         goToBuyPoint() {
             window.open("https://www.facebook.com/mongkytruyen", "_blank")
@@ -460,6 +527,29 @@ export default {
                     this.dateRange = start.format("DD/MM/YYYY") + " - " + end.format("DD/MM/YYYY")
                 }
             )
+        },
+        openDateRangePickerHistory() {
+            $('input[name="datetimes_history"]').daterangepicker(
+                {
+                    ranges: {
+                        "Hôm nay": [moment(), moment()],
+                        "Hôm qua": [moment().subtract(1, "days"), moment().subtract(1, "days")],
+                        "7 ngày qua": [moment().subtract(6, "days"), moment()],
+                        "30 ngày qua": [moment().subtract(29, "days"), moment()],
+                        "Tháng này": [moment().startOf("month"), moment().endOf("month")],
+                        "Tháng trước": [moment().subtract(1, "month").startOf("month"), moment().subtract(1, "month").endOf("month")]
+                    },
+                    alwaysShowCalendars: true,
+                    startDate: "27/10/2024",
+                    endDate: "02/11/2024",
+                    locale: {
+                        format: "DD/MM/YYYY"
+                    }
+                },
+                (start, end, label) => {
+                    this.dateRangeHistory = start.format("DD/MM/YYYY") + " - " + end.format("DD/MM/YYYY")
+                }
+            )
         }
     }
 }
@@ -651,6 +741,44 @@ export default {
                         }
                     }
                 }
+                .selects-type {
+                    position: relative;
+                    cursor: pointer;
+                    padding-inline: 12px;
+                    height: 42px;
+                    border-radius: 10px;
+                    background: #191c28;
+                    input {
+                        color: #fff;
+                        width: 100%;
+                        height: 100%;
+                        background: transparent;
+                        border: none;
+                        outline: none;
+                    }
+                    .select-action {
+                        position: absolute;
+                        right: 0;
+                        padding: 10px;
+                        top: 47px;
+                        width: 196px;
+                        height: 140px;
+                        border-radius: 10px;
+                        background: #191c28;
+                        .items {
+                            height: 40px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            padding: 5px;
+                            cursor: pointer;
+                            border-radius: 5px;
+                            &:hover {
+                                background: rgba(255, 255, 255, 0.07);
+                            }
+                        }
+                    }
+                }
                 .body-transaction {
                     overflow: auto;
                     height: calc(100% - 65px);
@@ -674,6 +802,27 @@ export default {
                             .titles-transaction {
                                 padding-inline: 12px;
                             }
+                        }
+                    }
+                }
+                .header-history {
+                    height: 50px;
+                }
+                .table-history {
+                    margin-top: 20px;
+                    height: calc(100% - 70px);
+                    .header-history {
+                        padding-inline: 12px;
+                        height: 40px;
+                        border-radius: 5px;
+                        background: rgba(255, 255, 255, 0.03);
+                    }
+                    .body-history {
+                        height: calc(100% - 40px);
+                        .item-history {
+                            padding-inline: 12px;
+                            height: 60px;
+                            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
                         }
                     }
                 }

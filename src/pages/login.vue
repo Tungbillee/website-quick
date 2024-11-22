@@ -85,6 +85,9 @@ export default {
         showpass() {
             this.showPassword = !this.showPassword
         },
+        register() {
+            this.$router.push("/list-agency")
+        },
         async onLogin() {
             let res = await this.api({
                 path: "/auth/signin",
