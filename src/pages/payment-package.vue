@@ -128,9 +128,9 @@ export default {
         },
         selected_period() {
             const periodMap = {
-                Normal: "1 tháng",
-                Advance: "6 tháng",
-                Pro: "12 tháng"
+                Normal: "1 tuần",
+                Advance: "3 tháng",
+                Pro: "6 tháng"
             }
             return periodMap[this.select_package?.name] || ""
         }
@@ -138,6 +138,7 @@ export default {
     created() {
         this.getUser()
         this.select_package = JSON.parse(localStorage.getItem("select_package"))
+        console.log(this.select_package)
 
         this.price = priceStore().price
     },

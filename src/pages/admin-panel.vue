@@ -79,7 +79,9 @@
                                     <img :src="getPackageIcon(item.name_pankage)" alt="" />
                                 </div>
                                 <div>
-                                    <div class="title">{{ item.purchase_term }} tháng</div>
+                                    <div v-if="item.purchase_term < 1" class="title">1 tuần</div>
+
+                                    <div v-else class="title">{{ item.purchase_term }} tháng</div>
                                     <div class="contents text-long1">
                                         {{ formatExpiryDate(item.expiry_date) }}
                                     </div>
@@ -428,12 +430,16 @@ export default {
         formatExpiryDate(expiryDateStr) {
             if (!expiryDateStr) return "-"
 
+            // Reset time to start of day (00:00:00) for both dates to get accurate day difference
             const today = new Date()
+            today.setHours(0, 0, 0, 0)
+
             const expiryDate = new Date(expiryDateStr)
+            expiryDate.setHours(0, 0, 0, 0)
 
             // Tính số ngày còn lại
             const diffTime = expiryDate.getTime() - today.getTime()
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
 
             // Format ngày hết hạn
             const day = String(expiryDate.getDate()).padStart(2, "0")

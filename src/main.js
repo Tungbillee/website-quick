@@ -21,6 +21,7 @@ globalFunction
         method: "GET"
     })
     .then(e => {
+        console.log(e)
         let price = priceStore()
         price.setPrice(e)
     })

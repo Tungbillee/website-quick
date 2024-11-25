@@ -76,16 +76,16 @@ export default {
             email: "",
             calendar: [
                 {
-                    name: "1 tháng",
+                    name: "1 tuần",
                     title: "Không giảm giá"
                 },
                 {
-                    name: "6 tháng",
+                    name: "3 tháng",
                     title: "Giảm 40%",
                     class: "red"
                 },
                 {
-                    name: "12 tháng",
+                    name: "6 tháng",
                     title: "Giảm 50%",
                     class: "red"
                 }
@@ -116,9 +116,9 @@ export default {
         totalAmount() {
             const prices = priceStore().price
             const packageMap = {
-                "1 tháng": "Theo tháng",
-                "6 tháng": "Theo quý",
-                "12 tháng": "Theo năm"
+                "1 tuần": "7 days",
+                "3 tháng": "3 month",
+                "6 tháng": "6 month"
             }
 
             const selectedPeriod = packageMap[this.selectCalendar]
@@ -140,9 +140,9 @@ export default {
         getAmountByPeriod(period) {
             const prices = priceStore().price
             const packageMap = {
-                "1 tháng": "Theo tháng",
-                "6 tháng": "Theo quý",
-                "12 tháng": "Theo năm"
+                "1 tuần": "7 days",
+                "3 tháng": "3 month",
+                "6 tháng": "6 month"
             }
 
             const mappedPeriod = packageMap[period]
@@ -171,14 +171,14 @@ export default {
             }
             let calendar
             let packages
-            if (this.selectCalendar === "1 tháng") {
-                calendar = "Theo tháng"
+            if (this.selectCalendar === "1 tuần") {
+                calendar = "7 days"
                 packages = "Normal"
-            } else if (this.selectCalendar === "6 tháng") {
-                calendar = "Theo quý"
+            } else if (this.selectCalendar === "3 tháng") {
+                calendar = "3 month"
                 packages = "Advance"
             } else {
-                calendar = "Theo năm"
+                calendar = "6 month"
                 packages = "Pro"
             }
             let res = await this.api({

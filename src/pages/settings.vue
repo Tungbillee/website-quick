@@ -55,7 +55,8 @@
                 <div class="body" v-if="type_manage === 'goi'">
                     <div class="flex-al gap-5">
                         <img :src="getPackageIcon(user?.name_package)" alt="" />
-                        <div class="fz-24 fw-600">Gói cước : {{ user?.purchase_term ?? 0 }} tháng</div>
+                        <div v-if="user?.purchase_term < 1" class="fz-24 fw-600">Gói cước : 1 tuần</div>
+                        <div v-else class="fz-24 fw-600">Gói cước : {{ user?.purchase_term ?? 0 }} tháng</div>
                     </div>
                     <div v-if="user.has_expired" class="expired flex-bw-al">
                         <div class="flex-al gap-5">
@@ -69,10 +70,10 @@
                     <div class="infos">
                         <div class="title-info">Thời hạn gói cước</div>
                         <div class="contens-info flex-al gap-3">
-                            <div>Thời hạn mua: {{ user?.purchase_term }} tháng</div>
+                            <div v-if="user?.purchase_term < 1">Thời hạn mua: 1 tuần</div>
+                            <div v-else>Thời hạn mua: {{ user?.purchase_term }} tháng</div>
                             <div class="text-300">-</div>
                             <div class="text-yellow">
-                                Còn
                                 {{ formatExpiryDateMonth(user?.expiry_date) }}
                             </div>
                             <div class="text-300">
@@ -520,49 +521,36 @@ export default {
             return this.formatnumber(remaining) // Format số với dấu chấm phân cách
             // Đảm bảo không trả về số âm
         },
+        formatExpiryDateMonth(expiryDateStr) {
+            if (!expiryDateStr) return "-"
 
-        // format số tháng còn lại
-        formatExpiryDateMonth(expiryDate) {
-            if (!expiryDate) return "0 ngày"
+            // Reset time to start of day (00:00:00) for both dates to get accurate day difference
+            const today = new Date()
+            today.setHours(0, 0, 0, 0)
 
-            const now = new Date()
-            const expiry = new Date(expiryDate)
+            const expiryDate = new Date(expiryDateStr)
+            expiryDate.setHours(0, 0, 0, 0)
 
-            // Tính khoảng thời gian còn lại tính bằng milliseconds
-            const timeLeft = expiry.getTime() - now.getTime()
+            // Tính số ngày còn lại
+            const diffTime = expiryDate.getTime() - today.getTime()
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
 
-            // Nếu đã hết hạn
-            if (timeLeft <= 0) return "0 ngày"
+            // Format ngày hết hạn
+            const day = String(expiryDate.getDate()).padStart(2, "0")
+            const month = String(expiryDate.getMonth() + 1).padStart(2, "0")
+            const year = expiryDate.getFullYear()
+            const formattedExpiryDate = `${day}/${month}/${year}`
 
-            // Chuyển đổi thành ngày/giờ
-            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24))
-            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-
-            // Tính số tháng (ước lượng 30 ngày/tháng)
-            const months = Math.floor(days / 30)
-            const remainingDays = days % 30
-
-            // Format kết quả
-            if (months > 0) {
-                if (remainingDays === 0) {
-                    return `${months} tháng`
-                } else if (remainingDays === 1) {
-                    return `${months} tháng 1 ngày`
-                } else {
-                    return `${months} tháng ${remainingDays} ngày`
-                }
-            } else if (days > 0) {
-                if (days === 1) {
-                    return "1 ngày"
-                }
-                return `${days} ngày`
+            // Xử lý các trường hợp
+            if (diffDays < 0) {
+                return `Đã hết hạn (${formattedExpiryDate})`
+            } else if (diffDays === 0) {
+                return `Hết hạn hôm nay (${formattedExpiryDate})`
             } else {
-                if (hours === 1) {
-                    return "1 giờ"
-                }
-                return `${hours} giờ`
+                return `Còn ${diffDays} ngày`
             }
         },
+
         openDateRangePicker() {
             $('input[name="datetimes_payment"]').daterangepicker(
                 {

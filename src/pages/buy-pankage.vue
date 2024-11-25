@@ -54,26 +54,26 @@
                             <div class="flex-al gap-10">
                                 <div><img :src="getIconByName(item.name)" alt="" /></div>
                                 <div class="title-name">
-                                    <template v-if="item.name === 'Normal'"> 1 tháng</template>
-                                    <template v-if="item.name === 'Advance'"> 6 tháng</template>
-                                    <template v-if="item.name === 'Pro'"> 12 tháng</template>
+                                    <template v-if="item.name === 'Normal'"> 1 tuần</template>
+                                    <template v-if="item.name === 'Advance'"> 3 tháng</template>
+                                    <template v-if="item.name === 'Pro'"> 6 tháng</template>
                                 </div>
                                 <div class="text-300 fz-16 mgt-5">{{ item.content }}</div>
                             </div>
                             <div class="flex-al gap-15" v-if="item.name === 'Pro'">
                                 <div>
-                                    <span class="fz-24 fw-600">{{ formatNumber(item.price / 12) }}</span> <span class="text-300">point/tháng</span>
+                                    <span class="fz-24 fw-600">{{ formatNumber(item.price / 6) }}</span> <span class="text-300">point/tháng</span>
                                 </div>
                                 <div class="voucher">Giảm 50%</div>
                             </div>
                             <div class="flex-al gap-15" v-if="item.name === 'Advance'">
                                 <div>
-                                    <span class="fz-24 fw-600">{{ formatNumber(item.price / 6) }}</span> <span class="text-300">point/tháng</span>
+                                    <span class="fz-24 fw-600">{{ formatNumber(item.price / 3) }}</span> <span class="text-300">point/tháng</span>
                                 </div>
                                 <div class="voucher">Giảm 40%</div>
                             </div>
                             <div v-if="item.name === 'Normal'">
-                                <span class="fz-24 fw-600">{{ formatNumber(item.price) }}</span> <span class="text-300">point/tháng</span>
+                                <span class="fz-24 fw-600">{{ formatNumber2(item.price / 7) }}</span> <span class="text-300">point/ngày</span>
                             </div>
                         </div>
                         <div class="button-buy" :class="{ active: item.name === 'Advance' }" @click="buyPackage(item)">Mua ngay</div>
@@ -112,7 +112,7 @@
                             </div>
                             <div class="flex-al gap-10">
                                 <img :src="img('icon_ok.svg')" alt="" />
-                                <div class="title-content">Sản xuất video Meme hàng loạt</div>
+                                <div class="title-content">Sản xuất hàng loạt video template</div>
                             </div>
                             <div class="flex-al gap-10">
                                 <img :src="img('icon_ok.svg')" alt="" />
@@ -151,11 +151,7 @@ export default {
             type_time: "month",
             select_package: null,
             what_select: ["Sản xuất video bản tin hàng loạt", "Ghép (duet)", "Nối video", "Tải hàng loạt video từ nhiều nền tảng"],
-            timeOptions: [
-                { value: "month", label: "Theo tháng" },
-                { value: "quarter", label: "Theo quý" },
-                { value: "year", label: "Theo năm" }
-            ],
+
             countdown: {
                 days: 0,
                 hours: 0,
@@ -238,14 +234,6 @@ export default {
             }
             return this.img(iconMap[iconName] || "default_icon.svg")
         },
-        getPeriodLabel(period) {
-            const mapping = {
-                month: "Theo tháng",
-                quarter: "Theo quý",
-                year: "Theo năm"
-            }
-            return mapping[period]
-        },
 
         buyPackage(item) {
             let user = useUserStore()
@@ -257,18 +245,16 @@ export default {
                 this.$router.push("/login")
             }
         },
+        formatNumber2(price) {
+            // Làm tròn số lên đến hàng nghìn gần nhất
+            const roundedPrice = Math.ceil(price / 1000) * 1000
+            // Thêm dấu chấm phân cách hàng nghìn
+            return roundedPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+        },
         formatNumber(price) {
             return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
         },
-        // Thêm method để chuyển đổi type_time sang label
-        getTimeLabel(type) {
-            const mapping = {
-                month: "Theo tháng",
-                quarter: "Theo quý",
-                year: "Theo năm"
-            }
-            return mapping[type]
-        },
+
         goToManage() {
             this.$router.push("/settings")
         },
