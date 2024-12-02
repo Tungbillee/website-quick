@@ -54,9 +54,9 @@
                             <div class="flex-al gap-10">
                                 <div><img :src="getIconByName(item.name)" alt="" /></div>
                                 <div class="title-name">
-                                    <template v-if="item.name === 'Normal'"> 1 tuần</template>
-                                    <template v-if="item.name === 'Advance'"> 3 tháng</template>
-                                    <template v-if="item.name === 'Pro'"> 6 tháng</template>
+                                    <template v-if="item.name === 'Normal'"> Gói 1 tuần</template>
+                                    <template v-if="item.name === 'Advance'"> Gói 3 tháng</template>
+                                    <template v-if="item.name === 'Pro'"> Gói 6 tháng</template>
                                 </div>
                                 <div class="text-300 fz-16 mgt-5">{{ item.content }}</div>
                             </div>
