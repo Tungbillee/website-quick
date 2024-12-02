@@ -151,10 +151,10 @@ export default {
             this.$router.push("/admin-panel")
         },
         downloadWindow() {
-            window.open("https://download.quickmagic.vn/Quick%20Magic%20Setup%201.2.3.zip", "_blank")
+            window.open("https://download.quickmagic.vn/Quick%20Magic%20Setup%203.0.0.zip", "_blank")
         },
         downloadMacos() {
-            window.open("https://download.quickmagic.vn/Quick%20Magic%20Setup%201.2.3.zip", "_blank")
+            window.open("https://download.quickmagic.vn/Quick%20Magic-3.0.0-arm64.pkg", "_blank")
         },
         img(data) {
             return "images/default/" + data
