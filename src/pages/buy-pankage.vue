@@ -202,7 +202,7 @@ export default {
     methods: {
         startTimer() {
             // Đặt ngày bắt đầu
-            const startDate = new Date("2024-11-21")
+            const startDate = new Date("2024-12-03")
             // Thêm 60 ngày để có ngày kết thúc
             const endDate = new Date(startDate.getTime() + 60 * 24 * 60 * 60 * 1000)
 
