@@ -66,6 +66,7 @@
                                 </div>
                                 <div class="voucher">Giảm 50%</div>
                             </div>
+
                             <div class="flex-al gap-15" v-if="item.name === 'Advance'">
                                 <div>
                                     <span class="fz-24 fw-600">{{ formatNumber(item.price / 3) }}</span> <span class="text-300">point/tháng</span>
@@ -75,7 +76,12 @@
                             <div v-if="item.name === 'Normal'">
                                 <span class="fz-24 fw-600">{{ formatNumber2(item.price / 7) }}</span> <span class="text-300">point/ngày</span>
                             </div>
+                            <div style="width: 100%; height: 1px; border-bottom: 1px dashed rgba(255, 255, 255, 0.3)"></div>
+                            <div class="text-all-package" v-if="item.name === 'Normal'">500.000 point/tuần</div>
+                            <div class="text-all-package" v-if="item.name === 'Advance'">3.600.000 point/3 tháng</div>
+                            <div class="text-all-package" v-if="item.name === 'Pro'">6.000.000 point/6 tháng</div>
                         </div>
+
                         <div class="button-buy" :class="{ active: item.name === 'Advance' }" @click="buyPackage(item)">Mua ngay</div>
                         <div class="flex-cl gap-20 ps-rl">
                             <div class="flex-al gap-10">
@@ -423,5 +429,12 @@ export default {
             }
         }
     }
+}
+.text-all-package {
+    font-size: 16px;
+    background: linear-gradient(264deg, #79f9ac 15.92%, #35c6f3 95.62%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 </style>

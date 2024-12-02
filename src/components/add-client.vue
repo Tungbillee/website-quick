@@ -44,7 +44,7 @@
                                 <div>
                                     <div>{{ formattedAmountstart(item.name) }} Point</div>
                                     <div class="mgt-5 fw-400 text-300">
-                                        {{ item.name === "6 tháng" ? (getAmountByPeriod(item.name) / 6).toLocaleString("vi-VN") + "/tháng" : item.name === "12 tháng" ? (getAmountByPeriod(item.name) / 12).toLocaleString("vi-VN") + "/tháng" : "" }}
+                                        {{ item.name === "6 tháng" ? (getAmountByPeriod(item.name) / 6).toLocaleString("vi-VN") + "/tháng" : item.name === "3 tháng" ? (getAmountByPeriod(item.name) / 3).toLocaleString("vi-VN") + "/tháng" : "" }}
                                     </div>
                                 </div>
                             </div>
