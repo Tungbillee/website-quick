@@ -48,7 +48,7 @@
                         class="items-pankage flex-cl gap-40"
                         :style="{
                             backgroundImage: `url(/images/admin-panel/${item.name}.png)`,
-                            height: index === 1 ? '650px' : '610px'
+                            height: index === 1 ? '690px' : '660px'
                         }">
                         <div class="flex-cl gap-15">
                             <div class="flex-al gap-10">
