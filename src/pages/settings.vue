@@ -339,7 +339,7 @@ export default {
             }
         },
         goToBuyPoint() {
-            window.open("https://www.facebook.com/mongkytruyen", "_blank")
+            window.open("https://www.facebook.com/Quick.magic1/", "_blank")
         },
         getColorByPercentage(total, used) {
             const totalAmount = total ?? 0

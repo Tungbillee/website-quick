@@ -53,7 +53,7 @@ export default {
             this.$router.push("/")
         },
         goToContactDC() {
-            window.open("https://www.facebook.com/mongkytruyen", "_blank")
+            window.open("https://www.facebook.com/Quick.magic1/", "_blank")
         }
     }
 }
