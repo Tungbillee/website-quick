@@ -26,12 +26,12 @@
             </div>
             <div class="flex-al-jt mgt-20">
                 <div @click="downloadWindow" v-if="system === 'windows'" class="button mgt-30 flex-al gap-6" style="padding: 5px 6px 5px 20px">
-                    Tải xuống v3.0.1 cho Windows
+                    Tải xuống v3.0.2 cho Windows
 
                     <img :src="img('icon_download.svg')" alt="" />
                 </div>
                 <div @click="downloadMacos" v-if="system === 'macos'" class="button mgt-30 flex-al gap-6" style="padding: 5px 6px 5px 20px">
-                    Tải xuống v3.0.1 cho MacOs
+                    Tải xuống v3.0.2 cho MacOs
                     <img :src="img('icon_download.svg')" alt="" />
                 </div>
             </div>
@@ -813,10 +813,10 @@ export default {
     },
     methods: {
         downloadWindow() {
-            window.open("https://download.quickmagic.vn/Quick%20Magic%20Setup%203.0.1.zip", "_blank")
+            window.open("https://download.quickmagic.vn/Quick%20Magic%20Setup%203.0.2.zip", "_blank")
         },
         downloadMacos() {
-            window.open("https://download.quickmagic.vn/Quick%20Magic-3.0.1-arm64.pkg", "_blank")
+            window.open("https://download.quickmagic.vn/Quick%20Magic-3.0.2-arm64.pkg", "_blank")
         },
         animateCount() {
             const duration = 10000 // 4 seconds duration
