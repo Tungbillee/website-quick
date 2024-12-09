@@ -6,7 +6,7 @@
                 <div class="info">
                     <div style="font-size: 36px" class="flex-al-jt fw-700 text-gradien">Chọn phiên bản để tải xuống</div>
                     <div class="flex gap-20 mgt-40">
-                        <div class="download flex-cl-bw" @click="downloadWindow">
+                        <div class="download flex-cl-bw" @click="downloadMacos">
                             <div>
                                 <img :src="img('macos.svg')" alt="" />
                                 <div class="fz-20 fw-600 mgt-15">Dành cho Mac OS</div>
@@ -17,7 +17,7 @@
                                 <div class="fz-16 fw-600">Tải xuống</div>
                             </div>
                         </div>
-                        <div class="download flex-cl-bw" @click="downloadMacos">
+                        <div class="download flex-cl-bw" @click="downloadWindow">
                             <div>
                                 <img :src="img('windown.svg')" alt="" />
                                 <div class="fz-20 fw-600 mgt-15">Dành cho Windows</div>
