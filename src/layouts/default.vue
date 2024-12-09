@@ -27,7 +27,7 @@
                     </div>
 
                     <div v-if="!isLogin" class="button" @click="login">Đăng nhập</div>
-                    <div v-else class="button">Tải xuống</div>
+                    <div v-else class="button" @click="downloadFile">Tải xuống</div>
                 </div>
             </div>
         </div>
@@ -122,6 +122,9 @@ export default {
     methods: {
         login() {
             this.$router.push("/login")
+        },
+        downloadFile() {
+            this.$router.push("/download-file")
         },
         goToBuyPackage() {
             // reload lại page

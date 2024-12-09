@@ -25,13 +25,9 @@
                 <div class="fz-16 flex-al-jt" style="line-height: 25px">Hãy sáng tạo những video chưa từng có!</div>
             </div>
             <div class="flex-al-jt mgt-20">
-                <div @click="downloadWindow" v-if="system === 'windows'" class="button mgt-30 flex-al gap-6" style="padding: 5px 6px 5px 20px">
-                    Tải xuống v3.0.2 cho Windows
+                <div @click="downloadWindow" class="button mgt-30 flex-al gap-6" style="padding: 5px 6px 5px 20px">
+                    Tải xuống
 
-                    <img :src="img('icon_download.svg')" alt="" />
-                </div>
-                <div @click="downloadMacos" v-if="system === 'macos'" class="button mgt-30 flex-al gap-6" style="padding: 5px 6px 5px 20px">
-                    Tải xuống v3.0.2 cho MacOs
                     <img :src="img('icon_download.svg')" alt="" />
                 </div>
             </div>
@@ -813,11 +809,9 @@ export default {
     },
     methods: {
         downloadWindow() {
-            window.open("https://download.quickmagic.vn/Quick%20Magic%20Setup%203.0.2.zip", "_blank")
+            this.$router.push("/download-file")
         },
-        downloadMacos() {
-            window.open("https://download.quickmagic.vn/Quick%20Magic-3.0.2-arm64.pkg", "_blank")
-        },
+
         animateCount() {
             const duration = 10000 // 4 seconds duration
             const frameRate = 62 // 32ms per frame (slower updates)
