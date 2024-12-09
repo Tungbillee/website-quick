@@ -6,18 +6,18 @@
                 <div class="info">
                     <div style="font-size: 36px" class="flex-al-jt fw-700 text-gradien">Chọn phiên bản để tải xuống</div>
                     <div class="flex gap-20 mgt-40">
-                        <div class="download flex-cl-bw">
+                        <div class="download flex-cl-bw" @click="downloadWindow">
                             <div>
                                 <img :src="img('macos.svg')" alt="" />
                                 <div class="fz-20 fw-600 mgt-15">Dành cho Mac OS</div>
                                 <div class="mgt-25">Phù hợp cho hệ điều hành Mac OS sử dụng chip M1 trở lên</div>
                             </div>
-                            <div class="button-download flex-al gap-10" @click="downloadWindow">
+                            <div class="button-download flex-al gap-10">
                                 <img :src="img('download.svg')" alt="" />
                                 <div class="fz-16 fw-600">Tải xuống</div>
                             </div>
                         </div>
-                        <div class="download flex-cl-bw">
+                        <div class="download flex-cl-bw" @click="downloadMacos">
                             <div>
                                 <img :src="img('windown.svg')" alt="" />
                                 <div class="fz-20 fw-600 mgt-15">Dành cho Windows</div>
@@ -25,7 +25,7 @@
                                 <div class="mgt-10">Yêu cầu phiên bản Driver version 522.25 trở lên ( Nếu máy sử dụng GPU)</div>
                             </div>
 
-                            <div class="button-download flex-al gap-10" @click="downloadMacos">
+                            <div class="button-download flex-al gap-10">
                                 <img :src="img('download.svg')" alt="" />
                                 <div class="fz-16 fw-600">Tải xuống</div>
                             </div>
