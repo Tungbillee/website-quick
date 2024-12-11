@@ -36,7 +36,7 @@
                     <div class="flex ps-rl">
                         <img :style="{ position: 'absolute', left: `${index * 16}px` }" v-for="(item, index) in avatar_people" :key="index" :src="img(item)" alt="" />
                     </div>
-                    <div class="flex-al-jt" style="opacity: 0.5; color: #f1f2f4; height: 30px">{{ currentCount }} người dùng</div>
+                    <div class="flex-al-jt" style="opacity: 0.5; color: #f1f2f4; height: 30px">{{ formattedCount }} người dùng</div>
                 </div>
             </div>
         </div>
@@ -542,7 +542,7 @@
                         <div class="flex ps-rl">
                             <img :style="{ position: 'absolute', left: `${index * 16}px` }" v-for="(item, index) in avatar_people" :key="index" :src="img(item)" alt="" />
                         </div>
-                        <div class="flex-al-jt" style="opacity: 0.5; color: #f1f2f4; height: 30px">{{ currentCount }} người dùng</div>
+                        <div class="flex-al-jt" style="opacity: 0.5; color: #f1f2f4; height: 30px">{{ formattedCount }} người dùng</div>
                     </div>
                     <div class="text-gr-2 fw-700">Dễ tiếp cận & sử dụng</div>
                 </div>
@@ -639,6 +639,8 @@ import Axios from "axios-https-proxy-fix"
 export default {
     data() {
         return {
+            displayValue: 0,
+            duration: 2000,
             icon: ["icon_facebook.svg", "icon_instagram.svg", "icon_youtube.svg", "icon_tiktok.svg", "icon_kuashou.svg"],
             avatar_people: ["icon_avt_1.svg", "icon_avt_2.svg", "icon_avt_3.svg", "icon_avt_4.svg"],
             text_sub: [
@@ -807,23 +809,50 @@ export default {
     created() {
         this.test()
     },
+    computed: {
+        formattedCount() {
+            return this.displayValue ? this.displayValue.toLocaleString() : "0"
+        }
+    },
+
     methods: {
         downloadWindow() {
             this.$router.push("/download-file")
         },
+        animateCount(endValue) {
+            console.log(endValue)
 
-        animateCount() {
-            const duration = 10000 // 4 seconds duration
-            const frameRate = 62 // 32ms per frame (slower updates)
-            const increment = Math.ceil(this.number_user / (duration / frameRate)) // Adjust increment for slower animation
-            const interval = setInterval(() => {
-                this.currentCount += increment
-                if (this.currentCount >= this.number_user) {
-                    this.currentCount = this.number_user
-                    clearInterval(interval)
+            const startValue = this.displayValue
+            const startTime = performance.now()
+
+            const updateValue = currentTime => {
+                const elapsed = currentTime - startTime
+                const progress = Math.min(elapsed / this.duration, 1)
+
+                // Easing function để làm mượt animation
+                const easeOutQuart = x => 1 - Math.pow(1 - x, 4)
+
+                this.displayValue = Math.round(startValue + (endValue - startValue) * easeOutQuart(progress))
+
+                if (progress < 1) {
+                    requestAnimationFrame(updateValue)
                 }
-            }, frameRate)
+            }
+
+            requestAnimationFrame(updateValue)
         },
+        // animateCount() {
+        //     const duration = 10000 // 4 seconds duration
+        //     const frameRate = 62 // 32ms per frame (slower updates)
+        //     const increment = Math.ceil(this.number_user / (duration / frameRate)) // Adjust increment for slower animation
+        //     const interval = setInterval(() => {
+        //         this.currentCount += increment
+        //         if (this.currentCount >= this.number_user) {
+        //             this.currentCount = this.number_user
+        //             clearInterval(interval)
+        //         }
+        //     }, frameRate)
+        // },
         async test() {
             let res = await Axios({
                 url: "https://reels.adsteam.xyz/v1/get-users"
@@ -831,7 +860,7 @@ export default {
 
             if (res.data.success) {
                 this.number_user = res.data.count
-                this.animateCount()
+                this.animateCount(this.number_user)
             }
         },
         // initializeVideoScroll() {
