@@ -27,11 +27,13 @@
 import overView from "../components/overview_quick.vue"
 import start from "../components/start_quick.vue"
 import feature from "../components/feature.vue"
+import policy from "../components/poricy.vue"
 export default {
     components: {
         overView,
         start,
-        feature
+        feature,
+        policy
     },
     data() {
         return {
@@ -50,12 +52,12 @@ export default {
                     question: "Các tính năng chính Quick Magic",
                     component: "feature",
                     show: false
+                },
+                {
+                    question: "Chính sách bảo mật",
+                    component: "policy",
+                    show: false
                 }
-                // {
-                //   question: "Chính sách bảo mật",
-                //   component: "overView",
-                //   show: false,
-                // },
             ]
         }
     },

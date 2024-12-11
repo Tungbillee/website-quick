@@ -9,6 +9,7 @@
                     <div class="options-text" @click="scrollToSection">Tính năng</div>
                     <div class="options-text" @click="helper">Hỗ trợ</div>
                     <div class="options-text" @click="goToBuyPackage">Bảng giá</div>
+                    <div class="options-text" @click="goToPolicy">Chính sách</div>
                     <div class="options-text" @click="goToListAgency">Liên hệ</div>
                 </div>
 
@@ -132,6 +133,9 @@ export default {
         },
         settingsOption() {
             this.$router.push("/settings")
+        },
+        goToPolicy() {
+            this.$router.push("/overview")
         },
         logout() {
             localStorage.removeItem("accessToken")
