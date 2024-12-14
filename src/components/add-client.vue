@@ -187,8 +187,8 @@ export default {
                 data: {
                     email: this.email,
                     password: this.password,
-                    package: packages,
-                    calendar: calendar
+                    package: "Normal",
+                    calendar: "7 days"
                 }
             })
             if (res.success) {
