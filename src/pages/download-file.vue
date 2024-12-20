@@ -55,10 +55,10 @@ export default {
             return "images/download/" + data
         },
         downloadMacos() {
-            window.open("https://download.quickmagic.vn/Quick%20Magic-3.0.8-arm64.pkg", "_blank")
+            window.open("https://download.quickmagic.vn/Quick%20Magic-3.1.1-arm64.pkg", "_blank")
         },
         downloadWindow() {
-            window.open("https://download.quickmagic.vn/Quick%20Magic%20Setup%203.0.8.zip", "_blank")
+            window.open("https://download.quickmagic.vn/Quick%20Magic%20Setup%203.1.1.zip", "_blank")
         }
     }
 }
